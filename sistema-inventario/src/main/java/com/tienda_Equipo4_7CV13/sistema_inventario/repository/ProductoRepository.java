@@ -14,29 +14,32 @@ public interface ProductoRepository extends JpaRepository<Producto, Long> {
     
     Optional<Producto> findByCodigoBarras(String codigoBarras);
     
-    List<Producto> findByCategoriaId(Long categoriaId);
+    @Query("SELECT p FROM Producto p WHERE p.categoria.idCategoria = :categoriaId")
+    List<Producto> findByCategoriaId(@Param("categoriaId") Long categoriaId);
     
-    List<Producto> findByProveedorId(Long proveedorId);
+    @Query("SELECT p FROM Producto p WHERE p.proveedor.idProveedor = :proveedorId")
+    List<Producto> findByProveedorId(@Param("proveedorId") Long proveedorId);
     
     @Query("SELECT p FROM Producto p WHERE p.stockActual <= p.stockMinimo")
     List<Producto> findStockBajo();
     
-    @Query("SELECT p FROM Producto p WHERE p.fechaCaducidad <= CURRENT_DATE + 30")
+    @Query("SELECT p FROM Producto p WHERE p.fechaCaducidad <= DATE_ADD(CURRENT_DATE, 30)")
     List<Producto> findProximosVencer();
     
+    @Query("SELECT p FROM Producto p WHERE p.enPromocion = true")
     List<Producto> findByEnPromocionTrue();
     
     List<Producto> findByNombreContainingIgnoreCase(String nombre);
     
-    @Query("SELECT p FROM Producto p WHERE p.activo = true")
+    @Query("SELECT p FROM Producto p WHERE p.activo = 1")
     List<Producto> findByActivoTrue();
     
     @Query("SELECT COUNT(p) FROM Producto p WHERE p.stockActual <= p.stockMinimo")
     long countStockBajo();
     
-    @Query("SELECT COUNT(p) FROM Producto p WHERE p.fechaCaducidad <= CURRENT_DATE + 30")
+    @Query("SELECT COUNT(p) FROM Producto p WHERE p.fechaCaducidad <= DATE_ADD(CURRENT_DATE, 30)")
     long countProximosVencer();
     
-    @Query("SELECT SUM(p.stockActual * p.precioCompra) FROM Producto p WHERE p.activo = true")
+    @Query("SELECT SUM(p.stockActual * p.precioCompra) FROM Producto p WHERE p.activo = 1")
     Double calcularValorTotalInventario();
 }
