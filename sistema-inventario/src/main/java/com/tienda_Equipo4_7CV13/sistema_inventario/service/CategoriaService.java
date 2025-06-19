@@ -1,5 +1,7 @@
 package com.tienda_Equipo4_7CV13.sistema_inventario.service;
 
+
+import com.tienda_Equipo4_7CV13.sistema_inventario.entity.RolUsuario;
 import com.tienda_Equipo4_7CV13.sistema_inventario.entity.Categoria;
 import com.tienda_Equipo4_7CV13.sistema_inventario.repository.CategoriaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,7 +56,7 @@ public class CategoriaService {
     public boolean tieneProductos(Long categoriaId) {
         // Método simplificado - verificar si existe al menos un producto
         return categoriaRepository.findAll().stream()
-            .anyMatch(cat -> cat.getId().equals(categoriaId));
+            .anyMatch(cat -> cat.getIdCategoria().equals(categoriaId));
     }
 
     // Obtener categorías con conteo de productos

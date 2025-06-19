@@ -1,5 +1,6 @@
 package com.tienda_Equipo4_7CV13.sistema_inventario.service;
 
+import com.tienda_Equipo4_7CV13.sistema_inventario.entity.RolUsuario;
 import com.tienda_Equipo4_7CV13.sistema_inventario.entity.Proveedor;
 import com.tienda_Equipo4_7CV13.sistema_inventario.repository.ProveedorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,7 +59,7 @@ public class ProveedorService {
     public boolean tieneProductos(Long proveedorId) {
         // Método simplificado - verificar si existe al menos un producto
         return proveedorRepository.findAll().stream()
-            .anyMatch(prov -> prov.getId().equals(proveedorId));
+            .anyMatch(prov -> prov.getIdProveedor().equals(proveedorId));
     }
 
     // Obtener proveedores con conteo de productos

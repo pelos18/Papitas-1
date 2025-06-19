@@ -1,4 +1,5 @@
 package com.tienda_Equipo4_7CV13.sistema_inventario.entity;
+import com.tienda_Equipo4_7CV13.sistema_inventario.entity.RolUsuario;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

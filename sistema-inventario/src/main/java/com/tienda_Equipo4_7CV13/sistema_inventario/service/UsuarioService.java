@@ -1,5 +1,7 @@
 package com.tienda_Equipo4_7CV13.sistema_inventario.service;
 
+
+import com.tienda_Equipo4_7CV13.sistema_inventario.entity.RolUsuario;
 import com.tienda_Equipo4_7CV13.sistema_inventario.entity.Usuario;
 import com.tienda_Equipo4_7CV13.sistema_inventario.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;

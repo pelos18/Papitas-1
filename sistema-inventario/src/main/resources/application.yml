@@ -1,22 +1,81 @@
-package com.tienda_Equipo4_7CV13.sistema_inventario;
+# Configuración del servidor
+server:
+  port: 8080
+  servlet:
+    context-path: /api
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
+# Configuración de Spring
+spring:
+  application:
+    name: sistema-inventario
+  
+  # Configuración de Oracle Database
+  datasource:
+    url: jdbc:oracle:thin:@localhost:1521/XEPDB1
+    username: ale_yo
+    password: Scrap13
+    driver-class-name: oracle.jdbc.OracleDriver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+  
+  # Configuración JPA/Hibernate
+  jpa:
+    database-platform: org.hibernate.dialect.Oracle12cDialect
+    hibernate:
+      ddl-auto: validate
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        use_sql_comments: true
+        jdbc:
+          batch_size: 20
+        cache:
+          use_second_level_cache: false
+  
+  # Configuración de Jackson (JSON)
+  jackson:
+    time-zone: America/Mexico_City
+    date-format: yyyy-MM-dd HH:mm:ss
+    serialization:
+      write-dates-as-timestamps: false
 
-@SpringBootApplication
-@EnableJpaRepositories
-@EnableTransactionManagement
-@EnableConfigurationProperties
-public class SistemaInventarioApplication {
+# Configuración JWT
+jwt:
+  secret: laModernaSecretKey2024SistemaInventario
+  expiration: 86400000  # 24 horas
+  token-prefix: "Bearer "
+  header-string: "Authorization"
 
-    public static void main(String[] args) {
-        System.out.println("🚀 Iniciando Sistema de Inventario La Moderna...");
-        SpringApplication.run(SistemaInventarioApplication.class, args);
-        System.out.println("✅ Sistema iniciado correctamente!");
-        System.out.println("📋 API disponible en: http://localhost:8080/api");
-        System.out.println("🔐 Endpoints de autenticación: http://localhost:8080/api/auth");
-    }
-}
+# Configuración de logging
+logging:
+  level:
+    com.tienda_Equipo4_7CV13.sistema_inventario: DEBUG
+    org.springframework.security: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+
+# Configuración de actuator (monitoreo)
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: always
+
+# Configuración personalizada de la aplicación
+app:
+  nombre: "Sistema de Inventario La Moderna"
+  version: "1.0.0"
+  descripcion: "Sistema completo de inventario con roles y reportes PDF"

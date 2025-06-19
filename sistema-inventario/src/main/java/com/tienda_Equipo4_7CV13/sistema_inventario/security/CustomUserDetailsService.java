@@ -1,5 +1,6 @@
 package com.tienda_Equipo4_7CV13.sistema_inventario.security;
 
+import com.tienda_Equipo4_7CV13.sistema_inventario.entity.RolUsuario;
 import com.tienda_Equipo4_7CV13.sistema_inventario.entity.Usuario;
 import com.tienda_Equipo4_7CV13.sistema_inventario.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         Usuario usuario = usuarioRepository.findByNombreUsuario(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado: " + username));
 
-        if (usuario.getActivo() == 0) {
+        if (Boolean.FALSE.equals(usuario.getActivo())) { // Si usuario.getActivo() es 'false' (inactivo)
             throw new UsernameNotFoundException("Usuario inactivo: " + username);
         }
 
