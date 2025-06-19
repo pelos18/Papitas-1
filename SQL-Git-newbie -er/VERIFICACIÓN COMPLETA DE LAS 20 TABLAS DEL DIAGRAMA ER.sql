@@ -1,0 +1,75 @@
+-- =====================================================
+-- VERIFICACIÓN COMPLETA DE LAS 20 TABLAS DEL DIAGRAMA ER
+-- =====================================================
+
+PROMPT '🔍 === VERIFICACIÓN COMPLETA DE LAS 20 TABLAS ==='
+PROMPT ''
+
+-- Verificar todas las tablas del diagrama ER
+WITH tablas_esperadas AS (
+    SELECT 'CATEGORIAS' as tabla_nombre, 1 as orden FROM dual UNION ALL
+    SELECT 'PROVEEDORES', 2 FROM dual UNION ALL
+    SELECT 'PRODUCTOS', 3 FROM dual UNION ALL
+    SELECT 'MOVIMIENTOS_INVENTARIO', 4 FROM dual UNION ALL
+    SELECT 'ALERTAS_SISTEMA', 5 FROM dual UNION ALL
+    SELECT 'CLIENTES', 6 FROM dual UNION ALL
+    SELECT 'USUARIOS', 7 FROM dual UNION ALL
+    SELECT 'VENTAS', 8 FROM dual UNION ALL
+    SELECT 'DETALLE_VENTAS', 9 FROM dual UNION ALL
+    SELECT 'DEVOLUCIONES', 10 FROM dual UNION ALL
+    SELECT 'CAJA', 11 FROM dual UNION ALL
+    SELECT 'CORTES_CAJA', 12 FROM dual UNION ALL
+    SELECT 'NOTIFICACIONES', 13 FROM dual UNION ALL
+    SELECT 'PROMOCIONES', 14 FROM dual UNION ALL
+    SELECT 'COMBOS', 15 FROM dual UNION ALL
+    SELECT 'DETALLE_COMBOS', 16 FROM dual UNION ALL
+    SELECT 'OFERTAS_ESPECIALES', 17 FROM dual UNION ALL
+    SELECT 'REPORTES_GENERADOS', 18 FROM dual UNION ALL
+    SELECT 'AUDITORIA', 19 FROM dual
+)
+SELECT 
+    te.orden as "#",
+    te.tabla_nombre as "TABLA_REQUERIDA",
+    CASE 
+        WHEN ut.table_name IS NOT NULL THEN '✅ EXISTE'
+        ELSE '❌ FALTA'
+    END as "ESTADO"
+FROM tablas_esperadas te
+LEFT JOIN user_tables ut ON te.tabla_nombre = ut.table_name
+ORDER BY te.orden;
+
+PROMPT ''
+PROMPT '📊 RESUMEN DE CUMPLIMIENTO:'
+
+WITH tablas_esperadas AS (
+    SELECT 'CATEGORIAS' as tabla_nombre FROM dual UNION ALL
+    SELECT 'PROVEEDORES' FROM dual UNION ALL
+    SELECT 'PRODUCTOS' FROM dual UNION ALL
+    SELECT 'MOVIMIENTOS_INVENTARIO' FROM dual UNION ALL
+    SELECT 'ALERTAS_SISTEMA' FROM dual UNION ALL
+    SELECT 'CLIENTES' FROM dual UNION ALL
+    SELECT 'USUARIOS' FROM dual UNION ALL
+    SELECT 'VENTAS' FROM dual UNION ALL
+    SELECT 'DETALLE_VENTAS' FROM dual UNION ALL
+    SELECT 'DEVOLUCIONES' FROM dual UNION ALL
+    SELECT 'CAJA' FROM dual UNION ALL
+    SELECT 'CORTES_CAJA' FROM dual UNION ALL
+    SELECT 'NOTIFICACIONES' FROM dual UNION ALL
+    SELECT 'PROMOCIONES' FROM dual UNION ALL
+    SELECT 'COMBOS' FROM dual UNION ALL
+    SELECT 'DETALLE_COMBOS' FROM dual UNION ALL
+    SELECT 'OFERTAS_ESPECIALES' FROM dual UNION ALL
+    SELECT 'REPORTES_GENERADOS' FROM dual UNION ALL
+    SELECT 'AUDITORIA' FROM dual
+)
+SELECT 
+    19 as "TABLAS_REQUERIDAS_DIAGRAMA",
+    COUNT(ut.table_name) as "TABLAS_CREADAS",
+    19 - COUNT(ut.table_name) as "TABLAS_FALTANTES",
+    ROUND(COUNT(ut.table_name) * 100.0 / 19, 1) as "PORCENTAJE_COMPLETADO"
+FROM tablas_esperadas te
+LEFT JOIN user_tables ut ON te.tabla_nombre = ut.table_name;
+
+PROMPT ''
+PROMPT '🎯 NOTA: El diagrama ER muestra 20 entidades, pero una parece ser una relación.'
+PROMPT '📋 Con OFERTAS_ESPECIALES agregada, tenemos 19 tablas principales.'
