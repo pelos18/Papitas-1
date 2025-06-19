@@ -1,13 +1,12 @@
 package com.tienda_Equipo4_7CV13.sistema_inventario;
+import com.tienda_Equipo4_7CV13.sistema_inventario.entity.RolUsuario;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @SpringBootApplication
-@EnableJpaRepositories
 @EnableTransactionManagement
 @EnableConfigurationProperties
 public class SistemaInventarioApplication {
