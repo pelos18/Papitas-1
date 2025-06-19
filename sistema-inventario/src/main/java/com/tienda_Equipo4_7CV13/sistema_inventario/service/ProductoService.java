@@ -46,7 +46,8 @@ public class ProductoService {
     }
 
     public List<Producto> buscarPorCodigoBarras(String codigoBarras) {
-        return productoRepository.findByCodigoBarras(codigoBarras);
+        Optional<Producto> producto = productoRepository.findByCodigoBarras(codigoBarras);
+        return producto.map(List::of).orElse(List.of());
     }
 
     public List<Producto> obtenerPorCategoria(Long categoriaId) {

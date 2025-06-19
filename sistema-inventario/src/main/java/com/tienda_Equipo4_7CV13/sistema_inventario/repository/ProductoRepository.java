@@ -1,0 +1,42 @@
+package com.tienda_Equipo4_7CV13.sistema_inventario.repository;
+
+import com.tienda_Equipo4_7CV13.sistema_inventario.entity.Producto;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.Optional;
+
+@Repository
+public interface ProductoRepository extends JpaRepository<Producto, Long> {
+    
+    Optional<Producto> findByCodigoBarras(String codigoBarras);
+    
+    List<Producto> findByCategoriaId(Long categoriaId);
+    
+    List<Producto> findByProveedorId(Long proveedorId);
+    
+    @Query("SELECT p FROM Producto p WHERE p.stockActual <= p.stockMinimo")
+    List<Producto> findStockBajo();
+    
+    @Query("SELECT p FROM Producto p WHERE p.fechaCaducidad <= CURRENT_DATE + 30")
+    List<Producto> findProximosVencer();
+    
+    List<Producto> findByEnPromocionTrue();
+    
+    List<Producto> findByNombreContainingIgnoreCase(String nombre);
+    
+    @Query("SELECT p FROM Producto p WHERE p.activo = true")
+    List<Producto> findByActivoTrue();
+    
+    @Query("SELECT COUNT(p) FROM Producto p WHERE p.stockActual <= p.stockMinimo")
+    long countStockBajo();
+    
+    @Query("SELECT COUNT(p) FROM Producto p WHERE p.fechaCaducidad <= CURRENT_DATE + 30")
+    long countProximosVencer();
+    
+    @Query("SELECT SUM(p.stockActual * p.precioCompra) FROM Producto p WHERE p.activo = true")
+    Double calcularValorTotalInventario();
+}

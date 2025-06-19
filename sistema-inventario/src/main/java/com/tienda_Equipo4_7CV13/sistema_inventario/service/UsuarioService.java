@@ -49,7 +49,13 @@ public class UsuarioService {
     }
 
     public List<Usuario> obtenerPorRol(String rol) {
-        return usuarioRepository.findByRol(rol);
+        // Convertir String a RolUsuario enum
+        try {
+            RolUsuario rolEnum = RolUsuario.valueOf(rol.toUpperCase());
+            return usuarioRepository.findByRol(rolEnum);
+        } catch (IllegalArgumentException e) {
+            return List.of(); // Retornar lista vacía si el rol no existe
+        }
     }
 
     public List<Usuario> obtenerActivos() {
@@ -101,7 +107,7 @@ public class UsuarioService {
         
         if (usuarioOpt.isPresent()) {
             Usuario usuario = usuarioOpt.get();
-            String rol = usuario.getRol();
+            String rol = usuario.getRol().name();
             
             // Lógica de permisos por rol
             switch (rol) {

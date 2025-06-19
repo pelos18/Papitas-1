@@ -1,27 +1,33 @@
 package com.tienda_Equipo4_7CV13.sistema_inventario.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
 @Table(name = "PROVEEDORES")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Proveedor {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "proveedores_seq")
-    @SequenceGenerator(name = "proveedores_seq", sequenceName = "SEQ_PROVEEDORES", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_proveedores")
+    @SequenceGenerator(name = "seq_proveedores", sequenceName = "SEQ_PROVEEDORES", allocationSize = 1)
     @Column(name = "ID_PROVEEDOR")
     private Long idProveedor;
     
-    @Column(name = "NOMBRE", length = 200, nullable = false)
+    @Column(name = "NOMBRE", length = 100, nullable = false)
     private String nombre;
     
-    @Column(name = "RAZON_SOCIAL", length = 200)
-    private String razonSocial;
-    
-    @Column(name = "RFC", length = 20)
+    @Column(name = "RFC", length = 13, unique = true)
     private String rfc;
+    
+    @Column(name = "DIRECCION", length = 255)
+    private String direccion;
     
     @Column(name = "TELEFONO", length = 20)
     private String telefono;
@@ -29,47 +35,21 @@ public class Proveedor {
     @Column(name = "EMAIL", length = 100)
     private String email;
     
-    @Column(name = "DIRECCION", length = 500)
-    private String direccion;
+    @Column(name = "CONTACTO", length = 100)
+    private String contacto;
     
-    @Column(name = "CIUDAD", length = 100)
-    private String ciudad;
+    @Column(name = "ACTIVO", nullable = false)
+    private Integer activo = 1;
     
-    @Column(name = "ESTADO", length = 100)
-    private String estado;
-    
-    @Column(name = "CODIGO_POSTAL", length = 10)
-    private String codigoPostal;
-    
-    @Column(name = "CONTACTO_PRINCIPAL", length = 200)
-    private String contactoPrincipal;
-    
-    @Column(name = "TELEFONO_CONTACTO", length = 20)
-    private String telefonoContacto;
-    
-    @Column(name = "DIAS_CREDITO")
-    private Integer diasCredito;
-    
-    @Column(name = "LIMITE_CREDITO", precision = 12, scale = 2)
-    private java.math.BigDecimal limiteCredito;
-    
-    @Column(name = "ACTIVO")
-    private Integer activo;
-    
-    @Column(name = "FECHA_REGISTRO")
-    private LocalDateTime fechaRegistro;
+    @Column(name = "FECHA_CREACION", nullable = false)
+    private LocalDateTime fechaCreacion = LocalDateTime.now();
     
     @Column(name = "FECHA_MODIFICACION")
     private LocalDateTime fechaModificacion;
     
-    @Column(name = "OBSERVACIONES", length = 1000)
-    private String observaciones;
     
-    // Relación con productos
-    @OneToMany(mappedBy = "proveedor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Producto> productos;
-    
-    // Constructores
+    // Constructores - Removed because of Lombok
+    /*
     public Proveedor() {
         this.fechaRegistro = LocalDateTime.now();
         this.activo = 1;
@@ -82,8 +62,10 @@ public class Proveedor {
         this.telefono = telefono;
         this.email = email;
     }
+    */
     
-    // Getters y Setters
+    // Getters y Setters - Removed because of Lombok
+    /*
     public Long getIdProveedor() {
         return idProveedor;
     }
@@ -235,8 +217,10 @@ public class Proveedor {
     public void setProductos(List<Producto> productos) {
         this.productos = productos;
     }
+    */
     
-    // Métodos de utilidad
+    // Métodos de utilidad - Removed because of Lombok and column removal
+    /*
     public boolean isActivo() {
         return activo != null && activo == 1;
     }
@@ -259,4 +243,5 @@ public class Proveedor {
                 ", activo=" + activo +
                 '}';
     }
+    */
 }

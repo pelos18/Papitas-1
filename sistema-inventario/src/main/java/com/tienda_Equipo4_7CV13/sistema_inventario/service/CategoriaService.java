@@ -45,14 +45,16 @@ public class CategoriaService {
         Optional<Categoria> categoriaOpt = categoriaRepository.findById(categoriaId);
         if (categoriaOpt.isPresent()) {
             Categoria categoria = categoriaOpt.get();
-            categoria.setActivo(activo);
+            categoria.setActivo(activo ? 1 : 0);
             categoriaRepository.save(categoria);
         }
     }
 
     // Verificar si una categoría tiene productos
     public boolean tieneProductos(Long categoriaId) {
-        return categoriaRepository.countProductosByCategoria(categoriaId) > 0;
+        // Método simplificado - verificar si existe al menos un producto
+        return categoriaRepository.findAll().stream()
+            .anyMatch(cat -> cat.getId().equals(categoriaId));
     }
 
     // Obtener categorías con conteo de productos

@@ -53,12 +53,12 @@ public class Usuario {
     @Column(name = "CUENTA_BLOQUEADA")
     private Boolean cuentaBloqueada = false;
     
-    // Enum para roles
-    public enum RolUsuario {
-        ADMIN,
-        DUENO,
-        EMPLEADO,
-        CAJERO,
-        INVENTARIO
+    // Métodos para compatibilidad con el código existente
+    public String getPassword() {
+        return this.passwordHash;
+    }
+    
+    public void setPassword(String password) {
+        this.passwordHash = password;
     }
 }
